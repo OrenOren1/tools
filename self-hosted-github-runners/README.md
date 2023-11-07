@@ -33,6 +33,3 @@ app_id  located in genral configuration
 app_installation id located in installation page in the url example : https://github.com/organizations/beti-safety/settings/installations/<ID>
 5. pull it with external secret manifest under /templates/external-secret.yaml
 
-```bash
-# Example installation command
-npm install sample-project
