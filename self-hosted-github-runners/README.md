@@ -33,3 +33,52 @@ app_id  located in genral configuration
 app_installation id located in installation page in the url example : https://github.com/organizations/beti-safety/settings/installations/<ID>
 5. pull it with external secret manifest under /templates/external-secret.yaml
 
+6. install with argocd application :
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: github-runner
+  namespace: argocd
+  labels:
+    type: infra
+    cluster: {{ .Values.cluster_name }}
+spec:
+  project: {{ .Values.argocd.project }}
+  source:
+    repoURL: git@github.com:beti-safety/argocd.git
+    path: helm/beti-github
+    targetRevision: auto1
+    helm:
+      values: |
+        externalSecretName: controller-manager
+        externalSecretSecretStoreRefName: secret-store
+        externalSecretRemoteRefKey: github-token
+        externalSecretRemoteRefProperty: GITHUB_TOKEN
+        runnerDeploymentName: org-runners
+        github_orginzation: org
+        runnerLabels:
+          - org-runners
+          - github-self-hosted-runners
+        runnerGroup:
+          - org-runners
+        actions-runner-controller:
+          enabled: true
+
+  destination:
+    namespace: actions-runner-system
+    server: {{ .Values.cluster_address }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+
+```
+or with helm install
+```bash
+helm install -n github-runners github ./  
+```
+ 
