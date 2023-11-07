@@ -1,0 +1,15 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: {{ .Values.runnerDeploymentName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  # This will deploy 2 runners now
+  replicas: 2
+  template:
+    spec:
+      organization: {{ .Values.github_orginzation }}
+      labels:
+        {{- toYaml $.Values.runnerLabels | nindent 8 }}
+      group:
+        "beti-runners"

@@ -1,0 +1,14 @@
+externalSecretName: controller-manager
+externalSecretSecretStoreRefName: vendor-secret-store
+# externalSecretSecretStoreRefKind: ClusterSecretStore # is default
+# externalSecretSecretKey: github_token # is default
+externalSecretRemoteRefKey: github-token
+externalSecretRemoteRefProperty: GITHUB_TOKEN
+runnerDeploymentName: vendor-runners
+github_orginzation: vendor_org
+runnerLabels:
+- vendor-runners
+- github-self-hosted-runners
+actions-runner-controller:
+  enabled: true
+# certManagerEnabled: false
