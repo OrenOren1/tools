@@ -1,0 +1,6 @@
+dependencies:
+- name: tailscale-subnet-router
+  repository: https://gtaylor.github.io/helm-charts
+  version: 1.2.1
+digest: sha256:52eada0544bc747fc589bde0b6e26a9791c1da589fb85a1aeb0a3b3657e40659
+generated: "2023-11-23T13:39:27.224605+02:00"
