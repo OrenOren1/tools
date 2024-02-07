@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: github-runner
+  namespace: argocd
+  labels:
+    type: infra
+    cluster: {{ .Values.cluster_name }}
+spec:
+  project: {{ .Values.argocd.project }}
+  source:
+    repoURL: git@github.com:beti-safety/argocd.git
+    path: helm/github-runner
+    targetRevision: {{ .Values.env_name }}
+
+  destination:
+    namespace: actions-runner-system
+    server: {{ .Values.cluster_address }}
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
